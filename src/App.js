@@ -6,17 +6,18 @@ import './styles/root.scss';
 
 const App = () => {
   const [history, setHistory] = useState([
-    { board: Array(9).fill(null), isNext: true },
+    { board: Array(9).fill(null), isXNext: true },
   ]);
   const [currentMove, setCurrentMove] = useState(0);
 
   const current = history[currentMove];
 
-  const winner = calculateWinner(current.board);
+  console.log('history', history);
 
+  const winner = calculateWinner(current.board);
   const message = winner
-    ? `winner is ${winner}`
-    : `Next player is ${current.isXNext ? 'x' : 'O'}`;
+    ? `Winner is ${winner}`
+    : `Next player is ${current.isXNext ? 'X' : 'O'}`;
 
   const handleSquareClick = position => {
     if (current.board[position] || winner) {
@@ -33,13 +34,16 @@ const App = () => {
 
         return square;
       });
-      return prev.concat({ board: newBoard, isNext: !last.isNext });
+
+      return prev.concat({ board: newBoard, isXNext: !last.isXNext });
     });
+
     setCurrentMove(prev => prev + 1);
   };
+
   return (
     <div className="app">
-      <h1>TicTacToe</h1>
+      <h1>TIC TAC TOE</h1>
       <h2>{message}</h2>
       <Board board={current.board} handleSquareClick={handleSquareClick} />
     </div>
